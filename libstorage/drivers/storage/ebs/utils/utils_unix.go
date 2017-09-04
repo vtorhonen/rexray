@@ -3,6 +3,8 @@
 package utils
 
 import (
+	"regexp"
+
 	"github.com/codedellemc/rexray/libstorage/api/types"
 )
 
@@ -19,6 +21,7 @@ type DeviceRange struct {
 	ParentLetters  []string
 	ChildLetters   []string
 	NextDeviceInfo *types.NextDeviceInfo
+	DeviceRE       *regexp.Regexp
 }
 
 var (
@@ -32,6 +35,7 @@ var (
 			Pattern: "[b-c][a-z]",
 			Ignore:  false,
 		},
+		DeviceRE: regexp.MustCompile(`^xvd[b-c][a-z]$`),
 	}
 	defaultDeviceRange = &DeviceRange{
 		ParentLetters: []string{"d"},
@@ -42,6 +46,7 @@ var (
 			Pattern: "[f-p]",
 			Ignore:  false,
 		},
+		DeviceRE: regexp.MustCompile(`^xvd[f-p]$`),
 	}
 )
 

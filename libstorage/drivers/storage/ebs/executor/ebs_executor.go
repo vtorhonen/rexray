@@ -137,8 +137,6 @@ func (d *driver) NextDevice(
 
 const procPartitions = "/proc/partitions"
 
-var xvdRX = regexp.MustCompile(`^xvd[a-z]$`)
-
 // Retrieve device paths currently attached and/or mounted
 func (d *driver) LocalDevices(
 	ctx types.Context,
@@ -151,6 +149,7 @@ func (d *driver) LocalDevices(
 	defer f.Close()
 
 	devMap := map[string]string{}
+	ns := d.deviceRange
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
@@ -159,7 +158,7 @@ func (d *driver) LocalDevices(
 			continue
 		}
 		devName := fields[3]
-		if !xvdRX.MatchString(devName) {
+		if !ns.DeviceRE.MatchString(devName) {
 			continue
 		}
 		devPath := path.Join("/dev/", devName)
