@@ -102,8 +102,9 @@ func (d *driver) Init(context types.Context, config gofig.Config) error {
 		return err
 	}
 
-	u := d.useLargeDeviceRange()
-	d.deviceRange = ebsUtils.GetDeviceRange(u)
+	useLargeDeviceRange := d.getUseLargeDeviceRange()
+	log.Info("using larger device range: ", useLargeDeviceRange)
+	d.deviceRange = ebsUtils.GetDeviceRange(useLargeDeviceRange)
 
 	log.Info("storage driver initialized")
 	return nil
@@ -1430,7 +1431,7 @@ func (d *driver) getKmsKeyID() string {
 	return d.config.GetString(ebs.ConfigEC2KmsKeyID)
 }
 
-func (d *driver) useLargeDeviceRange() bool {
+func (d *driver) getUseLargeDeviceRange() bool {
 	if d.config.IsSet(ebs.ConfigEBSLargeDeviceRange) {
 		return d.config.GetBool(ebs.ConfigEBSLargeDeviceRange)
 	}
