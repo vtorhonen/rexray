@@ -129,7 +129,7 @@ func (d *driver) NextDevice(
 				continue
 			}
 			return fmt.Sprintf(
-				"/dev/%s%s", ns.NextDeviceInfo.Prefix, suffix), nil
+				"/dev/xv%s", suffix), nil
 		}
 	}
 	return "", errNoAvaiDevice
@@ -184,9 +184,6 @@ func (d *driver) getEphemeralDevices(
 		return nil, err
 	}
 
-	// Get device namespace
-	ns := d.deviceRange
-
 	// Filter list of all block devices for ephemeral devices
 	scanner := bufio.NewScanner(bytes.NewReader(buf))
 	scanner.Split(bufio.ScanWords)
@@ -208,7 +205,7 @@ func (d *driver) getEphemeralDevices(
 		deviceNameStr := strings.Replace(
 			string(name),
 			"sd",
-			ns.NextDeviceInfo.Prefix, 1)
+			"xvd", 1)
 
 		deviceNames = append(deviceNames, deviceNameStr)
 	}

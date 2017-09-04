@@ -42,7 +42,7 @@ var (
 		ChildLetters: []string{
 			"f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"},
 		NextDeviceInfo: &types.NextDeviceInfo{
-			Prefix:  "xv",
+			Prefix:  "xvd",
 			Pattern: "[f-p]",
 			Ignore:  false,
 		},
