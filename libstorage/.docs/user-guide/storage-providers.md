@@ -85,6 +85,9 @@ all volumes that are created with a truthy encryption request field.
   device range `/dev/xvd[b-c][a-z]` for EBS volumes. By default this
   parameter is `false`, so AWS recommended device range `/dev/xvd[f-p]` is used.
   If this parameter is defined it must be defined both server and client-side.
+  See
+  [AWS documentation on device naming](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html)
+  for more information.
 
 For information on the equivalent environment variable and CLI flag names
 please see the section on how non top-level configuration properties are
