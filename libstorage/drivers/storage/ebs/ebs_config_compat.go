@@ -1,8 +1,8 @@
 package ebs
 
 import (
-	gofig "github.com/akutz/gofig/types"
 	log "github.com/sirupsen/logrus"
+	gofig "github.com/akutz/gofig/types"
 )
 
 const (
