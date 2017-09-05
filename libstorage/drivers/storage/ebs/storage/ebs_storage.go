@@ -102,11 +102,10 @@ func (d *driver) Init(context types.Context, config gofig.Config) error {
 		return err
 	}
 
-	useLargeDeviceRange := d.getUseLargeDeviceRange()
-	log.Info("using larger device range: ", useLargeDeviceRange)
+	useLargeDeviceRange := d.config.GetBool(ebs.ConfigUseLargeDeviceRange)
 	d.deviceRange = ebsUtils.GetDeviceRange(useLargeDeviceRange)
 
-	log.Info("storage driver initialized")
+	log.Info("storage driver initialized, using large device range: ", useLargeDeviceRange)
 	return nil
 }
 
@@ -1429,16 +1428,6 @@ func (d *driver) getKmsKeyID() string {
 		return v
 	}
 	return d.config.GetString(ebs.ConfigEC2KmsKeyID)
-}
-
-func (d *driver) getUseLargeDeviceRange() bool {
-	if d.config.IsSet(ebs.ConfigEBSLargeDeviceRange) {
-		return d.config.GetBool(ebs.ConfigEBSLargeDeviceRange)
-	}
-	if d.config.IsSet(ebs.ConfigAWSLargeDeviceRange) {
-		return d.config.GetBool(ebs.ConfigAWSLargeDeviceRange)
-	}
-	return d.config.GetBool(ebs.ConfigEC2LargeDeviceRange)
 }
 
 // TODO rexrayTag

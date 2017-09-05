@@ -13,6 +13,7 @@ import (
 
 	gofig "github.com/akutz/gofig/types"
 	"github.com/akutz/goof"
+	"github.com/labstack/gommon/log"
 
 	"github.com/codedellemc/rexray/libstorage/api/registry"
 	"github.com/codedellemc/rexray/libstorage/api/types"
@@ -46,8 +47,9 @@ func (d *driver) Init(ctx types.Context, config gofig.Config) error {
 	ebs.BackCompat(config)
 	d.config = config
 	// initialize device range config
-	u := d.config.GetBool(ebs.UseLargeDeviceRange)
-	d.deviceRange = ebsUtils.GetDeviceRange(u)
+	useLargeDeviceRange := d.config.GetBool(ebs.ConfigUseLargeDeviceRange)
+	log.Info("Executor using large device range: ", useLargeDeviceRange)
+	d.deviceRange = ebsUtils.GetDeviceRange(true)
 	return nil
 }
 
@@ -122,14 +124,19 @@ func (d *driver) NextDevice(
 	// Device namespace is iterated in random order
 	// to mitigate ghost device issues.
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for _, pIndex := range r.Perm(len(ns.ParentLetters)) {
+	parentLength := len(ns.ParentLetters)
+	for _, pIndex := range r.Perm(parentLength) {
+		parentSuffix := ""
+		if parentLength > 1 {
+			parentSuffix = ns.ParentLetters[pIndex]
+		}
 		for _, cIndex := range r.Perm(len(ns.ChildLetters)) {
-			suffix := ns.ParentLetters[pIndex] + ns.ChildLetters[cIndex]
+			suffix := parentSuffix + ns.ChildLetters[cIndex]
 			if localDeviceNames[suffix] {
 				continue
 			}
 			return fmt.Sprintf(
-				"/dev/xv%s", suffix), nil
+				"/dev/%s%s", ns.NextDeviceInfo.Prefix, suffix), nil
 		}
 	}
 	return "", errNoAvaiDevice
@@ -205,7 +212,7 @@ func (d *driver) getEphemeralDevices(
 		deviceNameStr := strings.Replace(
 			string(name),
 			"sd",
-			"xvd", 1)
+			d.deviceRange.NextDeviceInfo.Prefix, 1)
 
 		deviceNames = append(deviceNames, deviceNameStr)
 	}

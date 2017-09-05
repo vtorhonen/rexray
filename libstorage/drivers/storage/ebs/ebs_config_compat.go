@@ -33,9 +33,6 @@ const (
 	// ConfigEBSKmsKeyID is a config key.
 	ConfigEBSKmsKeyID = ConfigEBS + "." + KmsKeyID
 
-	// ConfigEBSLargeDeviceRange is a config key.
-	ConfigEBSLargeDeviceRange = ConfigEBS + "." + UseLargeDeviceRange
-
 	// ConfigEC2 is a config key.
 	ConfigEC2 = "ec2"
 
@@ -63,9 +60,6 @@ const (
 	// ConfigEC2KmsKeyID is a config key.
 	ConfigEC2KmsKeyID = ConfigEC2 + "." + KmsKeyID
 
-	// ConfigEC2LargeDeviceRange is a config key.
-	ConfigEC2LargeDeviceRange = ConfigEC2 + "." + UseLargeDeviceRange
-
 	// ConfigAWS is a config key.
 	ConfigAWS = "aws"
 
@@ -92,9 +86,6 @@ const (
 
 	// ConfigAWSKmsKeyID is a config key.
 	ConfigAWSKmsKeyID = ConfigAWS + "." + KmsKeyID
-
-	// ConfigAWSLargeDeviceRange is a config key.
-	ConfigAWSLargeDeviceRange = ConfigAWS + "." + UseLargeDeviceRange
 )
 
 // BackCompat ensures keys can be used from old configurations.
@@ -108,7 +99,6 @@ func BackCompat(config gofig.Config) {
 		{ConfigEBSTag, ConfigEC2Tag},
 		{ConfigEBSRexrayTag, ConfigEC2RexrayTag},
 		{ConfigEBSKmsKeyID, ConfigEC2KmsKeyID},
-		{ConfigEBSLargeDeviceRange, ConfigEC2LargeDeviceRange},
 	}
 	for _, check := range ec2Checks {
 		if !config.IsSet(check[0]) && config.IsSet(check[1]) {
@@ -126,7 +116,6 @@ func BackCompat(config gofig.Config) {
 		{ConfigEBSTag, ConfigAWSTag},
 		{ConfigEBSRexrayTag, ConfigAWSRexrayTag},
 		{ConfigEBSKmsKeyID, ConfigAWSKmsKeyID},
-		{ConfigEBSLargeDeviceRange, ConfigAWSLargeDeviceRange},
 	}
 	for _, check := range awsChecks {
 		if !config.IsSet(check[0]) && config.IsSet(check[1]) {
