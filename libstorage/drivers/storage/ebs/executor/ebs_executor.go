@@ -13,7 +13,7 @@ import (
 
 	gofig "github.com/akutz/gofig/types"
 	"github.com/akutz/goof"
-	"github.com/labstack/gommon/log"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/codedellemc/rexray/libstorage/api/registry"
 	"github.com/codedellemc/rexray/libstorage/api/types"
@@ -49,7 +49,7 @@ func (d *driver) Init(ctx types.Context, config gofig.Config) error {
 	// initialize device range config
 	useLargeDeviceRange := d.config.GetBool(ebs.ConfigUseLargeDeviceRange)
 	log.Info("Executor using large device range: ", useLargeDeviceRange)
-	d.deviceRange = ebsUtils.GetDeviceRange(true)
+	d.deviceRange = ebsUtils.GetDeviceRange(useLargeDeviceRange)
 	return nil
 }
 
