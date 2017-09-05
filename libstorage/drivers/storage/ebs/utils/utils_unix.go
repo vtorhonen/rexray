@@ -12,10 +12,11 @@ import (
 // and patterns for matching device nodes to specific namespaces.
 //
 // EBS suggests to use /dev/sd[f-p] for Linux EC2 instances. Also on Linux EC2
-// instances, although the device path may show up as /dev/sd* on the EC2 side,
-// it will appear locally as /dev/xvd*
+// instances, although the device path may show up as /dev/sd* on the EC2
+// side, it will appear locally as /dev/xvd*
 //
-// The broadest device path namespace available for Linux EC2 instances is /dev/xvd[b-c][a-z]
+// The broadest device path namespace available for Linux EC2 instances is
+// /dev/xvd[b-c][a-z]
 // See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.htm
 type DeviceRange struct {
 	ParentLetters  []string

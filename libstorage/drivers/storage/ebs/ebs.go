@@ -101,7 +101,8 @@ func init() {
 	r.Key(gofig.Int, "", DefaultMaxRetries, "", Name+"."+MaxRetries)
 	r.Key(gofig.String, "", "", "Tag prefix for EBS naming", Name+"."+Tag)
 	r.Key(gofig.String, "", "", "", Name+"."+KmsKeyID)
-	r.Key(gofig.Bool, "", defaultUseLargeDeviceRange, "Use Larger Device Range", ConfigUseLargeDeviceRange)
+	r.Key(gofig.Bool, "", defaultUseLargeDeviceRange,
+		"Use Larger Device Range", ConfigUseLargeDeviceRange)
 	r.Key(gofig.Int, "", defaultStatusMaxAttempts, "Max Status Attempts",
 		ConfigStatusMaxAttempts)
 	r.Key(gofig.String, "", defaultStatusInitDelay, "Status Initial Delay",

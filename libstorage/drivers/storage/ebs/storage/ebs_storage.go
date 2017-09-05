@@ -105,7 +105,8 @@ func (d *driver) Init(context types.Context, config gofig.Config) error {
 	useLargeDeviceRange := d.config.GetBool(ebs.ConfigUseLargeDeviceRange)
 	d.deviceRange = ebsUtils.GetDeviceRange(useLargeDeviceRange)
 
-	log.Info("storage driver initialized, using large device range: ", useLargeDeviceRange)
+	log.Info("storage driver initialized, using large device range: ",
+		useLargeDeviceRange)
 	return nil
 }
 

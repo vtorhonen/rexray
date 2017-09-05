@@ -81,7 +81,10 @@ all volumes that are created with a truthy encryption request field.
 - `statusTimeout` is a maximum length of time that polling for volume status can
   occur. This serves as a backstop against a stuck request of malfunctioning API
   that never returns.
-
+- `useLargeDeviceRange` specifies if REX-Ray should use largest available
+  device range `/dev/xvd[b-c][a-z]` for EBS volumes. By default this
+  parameter is `false`, so AWS recommended device range `/dev/xvd[f-p]` is used.
+  If this parameter is defined it must be defined both server and client-side.
 
 For information on the equivalent environment variable and CLI flag names
 please see the section on how non top-level configuration properties are
